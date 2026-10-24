@@ -121,3 +121,4 @@ Women face a continuum of safety threats across physical and digital spaces—fr
 * **Bharatiya Sakshya Adhiniyam (BSA), 2023 — Section 63:** Replaced Section 65B of the Indian Evidence Act for electronic record admissibility.
 * **Bharatiya Nyaya Sanhita (BNS), 2023 — Section 78 & 79:** Stalking and acts intended to insult modesty of women.
 * **Information Technology Act, 2000 — Section 66D, 66E, 67A:** Identity impersonation, privacy violations, and non-consensual digital content.
+

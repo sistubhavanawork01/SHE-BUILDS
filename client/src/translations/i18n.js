@@ -84,3 +84,4 @@ export const translations = {
     prevent_protect_prove: "ತಡೆಗಟ್ಟುವಿಕೆ • ರಕ್ಷಣೆ • ಪುರಾವೆ • ಎಚ್ಚರಿಕೆ"
   }
 };
+

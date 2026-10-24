@@ -289,3 +289,4 @@ export const SafeHavensPage = ({ setActiveTab }) => {
     </div>
   );
 };
+

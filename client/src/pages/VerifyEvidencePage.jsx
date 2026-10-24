@@ -191,3 +191,4 @@ export const VerifyEvidencePage = ({ setActiveTab }) => {
     </div>
   );
 };
+

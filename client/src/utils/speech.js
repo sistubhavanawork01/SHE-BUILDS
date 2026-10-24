@@ -71,3 +71,4 @@ export function speakText(text, lang = 'en-US', pitch = 1.0, rate = 0.95) {
 
   window.speechSynthesis.speak(utterance);
 }
+

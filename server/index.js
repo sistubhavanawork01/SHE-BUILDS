@@ -255,3 +255,4 @@ app.post('/api/digital/breach-check', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🛡️ SHIELD Server running on http://localhost:${PORT}`);
 });
+

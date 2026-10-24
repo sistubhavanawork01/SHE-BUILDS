@@ -193,3 +193,4 @@ export const CommunityMapPage = ({ setActiveTab }) => {
     </div>
   );
 };
+

@@ -24,3 +24,4 @@ export const demoCabRoute = {
     { lat: 12.9940, lng: 74.7760, step: 5, timeSec: 20, status: "CRITICAL_ALERT", note: "Vehicle stopped in dark secluded area. 'Are you okay?' 20s escalation triggered!" }
   ]
 };
+

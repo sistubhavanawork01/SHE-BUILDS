@@ -84,3 +84,4 @@ export function calculateHammingDistance(hashA, hashB) {
   }
   return dist;
 }
+
