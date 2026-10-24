@@ -1,0 +1,21 @@
+{
+  "name": "shield",
+  "version": "2.0.0",
+  "description": "SHIELD: Community-Powered Women's Safety & Incident Intelligence - NITK Women Hackathon PS2",
+  "scripts": {
+    "server": "node server/index.js",
+    "client": "npm --prefix client run dev",
+    "build:client": "npm --prefix client run build"
+  },
+  "keywords": [
+    "womens-safety",
+    "incident-intelligence",
+    "cab-guard",
+    "tamper-evident-evidence",
+    "ncii-shield",
+    "hackathon",
+    "nitk"
+  ],
+  "author": "NITK Women Hackathon Team",
+  "license": "MIT"
+}
