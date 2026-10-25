@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useShield } from '../context/ShieldContext.jsx';
-import { Shield, Lock, Globe, Mic, MicOff, Users, Bell, User } from 'lucide-react';
+import { Shield, Lock, Globe, Mic, MicOff, Users, Bell, User, Volume2 } from 'lucide-react';
 import { VoiceAssistant, speakText } from '../utils/speech.js';
 
 export const Navbar = ({ activeTab, setActiveTab }) => {
-  const { lang, setLang, t, user, setIsDecoyUnlocked, safetyCircle } = useShield();
+  const { lang, setLang, t, user, setIsDecoyUnlocked, safetyCircle, voiceEnabled, setVoiceEnabled } = useShield();
   const [isListening, setIsListening] = useState(false);
   const [voiceVoiceObj, setVoiceObj] = useState(null);
 
@@ -28,6 +28,18 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
     } else if (text.includes('digital') || text.includes('ncii') || text.includes('photo')) {
       setActiveTab('digital_shield');
       speakText('Opening Digital Safety Shield.');
+    } else if (text.includes('safe route') || text.includes('safe routing') || text.includes('lighting') || text.includes('सुरक्षित रास्ता')) {
+      setActiveTab('safe_routing');
+      speakText('Opening the lighting-weighted safe route planner.');
+    } else if (text.includes('bio') || text.includes('whispermesh') || text.includes('watch') || text.includes('wearable')) {
+      setActiveTab('bio_telemetry');
+      speakText('Opening bio-telemetry and WhisperMesh protection.');
+    } else if (text.includes('tracker') || text.includes('airtag') || text.includes('stalkware')) {
+      setActiveTab('tracker_hunter');
+      speakText('Opening the rogue Bluetooth tracker hunter.');
+    } else if (text.includes('guardian') || text.includes('earbud') || text.includes('codeword')) {
+      setActiveTab('guardian_angel');
+      speakText('Opening Guardian Angel earbud companion mode.');
     } else if (text.includes('account') || text.includes('profile') || text.includes('खाता')) {
       setActiveTab('account_profile');
       speakText('Opening user safety profile.');
@@ -87,6 +99,20 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
           >
             {isListening ? <Mic className="w-4 h-4 text-rose-400 animate-bounce" /> : <MicOff className="w-4 h-4" />}
             <span className="hidden md:inline">{isListening ? 'Listening' : 'Voice'}</span>
+          </button>
+
+          <button
+            onClick={() => setVoiceEnabled(!voiceEnabled)}
+            title={voiceEnabled ? 'Turn off spoken feature announcements' : 'Turn on spoken feature announcements'}
+            aria-pressed={voiceEnabled}
+            className={`p-2 rounded-xl border transition flex items-center gap-1.5 text-xs font-medium ${
+              voiceEnabled
+                ? 'bg-emerald-600/20 border-emerald-500 text-emerald-300'
+                : 'bg-slate-800/80 border-slate-700/80 text-slate-400'
+            }`}
+          >
+            <Volume2 className="w-4 h-4" />
+            <span className="hidden md:inline">{voiceEnabled ? 'Voice On' : 'Voice Off'}</span>
           </button>
 
           {/* Multilingual Switcher (English, Hindi, Kannada, Telugu) */}

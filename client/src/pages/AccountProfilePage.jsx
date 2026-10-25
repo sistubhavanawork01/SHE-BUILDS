@@ -21,7 +21,7 @@ import {
 import { speakText } from '../utils/speech.js';
 
 export const AccountProfilePage = ({ setActiveTab }) => {
-  const { user, updateUser, logout, trustedContacts, t } = useShield();
+  const { user, updateUser, logout, trustedContacts, t, voiceEnabled, setVoiceEnabled } = useShield();
 
   const [name, setName] = useState(user?.name || 'Priya Sharma');
   const [phone, setPhone] = useState(user?.phone || '+91 98765 43210');
@@ -118,6 +118,27 @@ export const AccountProfilePage = ({ setActiveTab }) => {
           <span>Safety profile, duress PINs, and emergency contacts updated successfully!</span>
         </div>
       )}
+
+      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-xl flex items-center justify-between gap-4">
+        <div>
+          <h3 className="text-sm font-bold text-white">Spoken feature announcements</h3>
+          <p className="text-xs text-slate-400 mt-1">
+            Off by default. Enable only when it is safe for others nearby to hear SHIELD.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={() => setVoiceEnabled(!voiceEnabled)}
+          aria-pressed={voiceEnabled}
+          className={`px-3 py-2 rounded-xl text-xs font-bold border transition ${
+            voiceEnabled
+              ? 'bg-emerald-600/20 text-emerald-300 border-emerald-500'
+              : 'bg-slate-800 text-slate-300 border-slate-700'
+          }`}
+        >
+          {voiceEnabled ? 'Voice On' : 'Voice Off'}
+        </button>
+      </div>
 
       {/* Profile & Circle Card */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -336,4 +357,3 @@ export const AccountProfilePage = ({ setActiveTab }) => {
     </div>
   );
 };
-

@@ -17,6 +17,10 @@ import { DigitalShieldPage } from './pages/DigitalShieldPage.jsx';
 import { InstitutionDashboardPage } from './pages/InstitutionDashboardPage.jsx';
 import { TrustedContactLivePage } from './pages/TrustedContactLivePage.jsx';
 import { SafeSpotShopPage } from './pages/SafeSpotShopPage.jsx';
+import { SafeRoutingPage } from './pages/SafeRoutingPage.jsx';
+import { BioTelemetryPage } from './pages/BioTelemetryPage.jsx';
+import { TrackerHunterPage } from './pages/TrackerHunterPage.jsx';
+import { GuardianAngelPage } from './pages/GuardianAngelPage.jsx';
 
 import { 
   Shield, 
@@ -70,6 +74,10 @@ const MainAppContent = () => {
         {activeTab === 'evidence_vault' && <EvidenceVaultPage setActiveTab={setActiveTab} />}
         {activeTab === 'verify_evidence' && <VerifyEvidencePage setActiveTab={setActiveTab} />}
         {activeTab === 'digital_shield' && <DigitalShieldPage setActiveTab={setActiveTab} />}
+        {activeTab === 'safe_routing' && <SafeRoutingPage setActiveTab={setActiveTab} />}
+        {activeTab === 'bio_telemetry' && <BioTelemetryPage setActiveTab={setActiveTab} />}
+        {activeTab === 'tracker_hunter' && <TrackerHunterPage setActiveTab={setActiveTab} />}
+        {activeTab === 'guardian_angel' && <GuardianAngelPage setActiveTab={setActiveTab} />}
         {activeTab === 'institution_dashboard' && <InstitutionDashboardPage />}
         {activeTab === 'contact_view' && <TrustedContactLivePage />}
         {activeTab === 'safe_spot_view' && <SafeSpotShopPage />}

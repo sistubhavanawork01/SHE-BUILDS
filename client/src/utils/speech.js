@@ -61,6 +61,7 @@ export class VoiceAssistant {
 
 // Browser Text-To-Speech for Alerts and AI Fake Call
 export function speakText(text, lang = 'en-US', pitch = 1.0, rate = 0.95) {
+  if (typeof window !== 'undefined' && window.localStorage.getItem('shield_voice_enabled') !== 'true') return;
   if (!('speechSynthesis' in window)) return;
   window.speechSynthesis.cancel(); // Stop any pending speech
 
@@ -71,4 +72,3 @@ export function speakText(text, lang = 'en-US', pitch = 1.0, rate = 0.95) {
 
   window.speechSynthesis.speak(utterance);
 }
-

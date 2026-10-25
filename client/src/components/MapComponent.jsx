@@ -58,6 +58,36 @@ export const MapComponent = ({
   const mapInstanceRef = useRef(null);
   const markersLayerRef = useRef(null);
   const routeLayerRef = useRef(null);
+  const livePositionRef = useRef(null);
+  const [livePosition, setLivePosition] = React.useState(null);
+
+  // Request the browser/device location for a live user marker. Native Android
+  // shells can expose the same browser geolocation API through their WebView.
+  useEffect(() => {
+    if (!navigator.geolocation) return undefined;
+
+    const watchId = navigator.geolocation.watchPosition(
+      ({ coords }) => {
+        const position = {
+          lat: coords.latitude,
+          lng: coords.longitude,
+          accuracy: coords.accuracy
+        };
+        livePositionRef.current = position;
+        setLivePosition(position);
+        if (mapInstanceRef.current && !mapInstanceRef.current._shieldHasCenteredOnUser) {
+          mapInstanceRef.current.setView([position.lat, position.lng], Math.max(zoom, 15));
+          mapInstanceRef.current._shieldHasCenteredOnUser = true;
+        }
+      },
+      (error) => {
+        console.warn('Live location unavailable:', error.message);
+      },
+      { enableHighAccuracy: true, maximumAge: 10000, timeout: 15000 }
+    );
+
+    return () => navigator.geolocation.clearWatch(watchId);
+  }, [zoom]);
 
   // Initialize Map
   useEffect(() => {
@@ -70,10 +100,9 @@ export const MapComponent = ({
         zoomControl: false
       });
 
-      // CartoDB Dark Matter tiles for sleek modern aesthetics
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-        subdomains: 'abcd',
+      // OpenStreetMap tiles do not require an application API key.
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         maxZoom: 19
       }).addTo(map);
 
@@ -102,13 +131,15 @@ export const MapComponent = ({
 
     // 1. Current User Location Pin
     const userIcon = createCustomIcon('#e11d48', '📍', true);
-    L.marker([13.0108, 74.7938], { icon: userIcon })
+    const userCoordinates = livePosition
+      ? [livePosition.lat, livePosition.lng]
+      : [13.0108, 74.7938];
+    L.marker(userCoordinates, { icon: userIcon })
       .addTo(markersLayerRef.current)
       .bindPopup(`
         <div style="font-family: sans-serif; color: #0f172a; font-size: 12px; padding: 4px;">
-          <strong style="color: #e11d48;">Your Safe Zone</strong><br/>
-          NITK Main Campus Gate<br/>
-          <span style="color: #64748b; font-size: 10px;">Coordinates generalized for privacy</span>
+          <strong style="color: #e11d48;">${livePosition ? 'Your Live Location' : 'Location Pending'}</strong><br/>
+          ${livePosition ? `${livePosition.lat.toFixed(6)}, ${livePosition.lng.toFixed(6)}<br/><span style="color: #64748b; font-size: 10px;">Accuracy: approximately ${Math.round(livePosition.accuracy)}m</span>` : 'Allow location access to show your position.'}
         </div>
       `);
 
@@ -162,7 +193,7 @@ export const MapComponent = ({
           </div>
         `);
     });
-  }, [incidents, safeHavens, onMarkerClick]);
+  }, [incidents, safeHavens, onMarkerClick, livePosition]);
 
   // Update Cab Guard Route & Vehicle Position
   useEffect(() => {
@@ -217,4 +248,3 @@ export const MapComponent = ({
     </div>
   );
 };
-

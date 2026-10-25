@@ -17,7 +17,9 @@ import {
   AlertTriangle,
   ChevronRight,
   Radio,
-  UserCheck
+  UserCheck,
+  Navigation
+  ,Headphones
 } from 'lucide-react';
 
 export const SafetyHomePage = ({ setActiveTab }) => {
@@ -253,6 +255,82 @@ export const SafetyHomePage = ({ setActiveTab }) => {
             </h4>
             <p className="text-xs text-slate-400 mt-1 leading-relaxed">
               Realistic incoming call with synthesizer ringtone & voice dialogue to exit safely.
+            </p>
+          </div>
+
+          {/* Safe Routing */}
+          <div
+            onClick={() => setActiveTab('safe_routing')}
+            className="bg-slate-900/70 hover:bg-slate-900 border border-slate-800 hover:border-amber-500/50 rounded-2xl p-4.5 cursor-pointer transition shadow-lg group relative overflow-hidden"
+          >
+            <div className="flex items-center justify-between mb-2.5">
+              <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 group-hover:scale-110 transition">
+                <Navigation className="w-5 h-5" />
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-wider bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-full">
+                Before • P1
+              </span>
+            </div>
+            <h4 className="font-bold text-white text-sm group-hover:text-amber-400 transition">{t.safe_routing}</h4>
+            <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+              Choose a brighter, populated route and report broken streetlights with ambient lux evidence.
+            </p>
+          </div>
+
+          {/* Bio-Telemetry & WhisperMesh */}
+          <div
+            onClick={() => setActiveTab('bio_telemetry')}
+            className="bg-slate-900/70 hover:bg-slate-900 border border-slate-800 hover:border-rose-500/50 rounded-2xl p-4.5 cursor-pointer transition shadow-lg group relative overflow-hidden"
+          >
+            <div className="flex items-center justify-between mb-2.5">
+              <div className="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400 group-hover:scale-110 transition">
+                <Radio className="w-5 h-5" />
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-wider bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded-full">
+                During • P0
+              </span>
+            </div>
+            <h4 className="font-bold text-white text-sm group-hover:text-rose-400 transition">{t.bio_telemetry}</h4>
+            <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+              Smartwatch distress triggers, in-pocket gestures, and offline BLE relay when cellular service fails.
+            </p>
+          </div>
+
+          {/* Tracker Hunter */}
+          <div
+            onClick={() => setActiveTab('tracker_hunter')}
+            className="bg-slate-900/70 hover:bg-slate-900 border border-slate-800 hover:border-purple-500/50 rounded-2xl p-4.5 cursor-pointer transition shadow-lg group relative overflow-hidden"
+          >
+            <div className="flex items-center justify-between mb-2.5">
+              <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 group-hover:scale-110 transition">
+                <Radio className="w-5 h-5" />
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-wider bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded-full">
+                Digital • P1
+              </span>
+            </div>
+            <h4 className="font-bold text-white text-sm group-hover:text-purple-400 transition">{t.tracker_hunter}</h4>
+            <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+              Detect persistent AirTag, Tile, and SmartTag beacons across multiple travel waypoints.
+            </p>
+          </div>
+
+          {/* Guardian Angel Earbud Companion */}
+          <div
+            onClick={() => setActiveTab('guardian_angel')}
+            className="bg-slate-900/70 hover:bg-slate-900 border border-slate-800 hover:border-sky-500/50 rounded-2xl p-4.5 cursor-pointer transition shadow-lg group relative overflow-hidden"
+          >
+            <div className="flex items-center justify-between mb-2.5">
+              <div className="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 group-hover:scale-110 transition">
+                <Headphones className="w-5 h-5" />
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-wider bg-sky-500/20 text-sky-300 px-2 py-0.5 rounded-full">
+                During • P1
+              </span>
+            </div>
+            <h4 className="font-bold text-white text-sm group-hover:text-sky-400 transition">Guardian Angel Earbud Mode</h4>
+            <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+              Private route guidance and an optional natural-sounding spoken codeword for silent SOS.
             </p>
           </div>
         </div>

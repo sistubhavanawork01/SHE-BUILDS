@@ -73,7 +73,16 @@ export const translations = {
     download_pdf_pack: "Download Court-Ready Evidence Pack (PDF)",
     verify_evidence: "Verify Hash & Tamper Demo",
     simulate_tamper: "Simulate Tampering (Flip 1 Byte)",
-    all_women_empowered: "Protecting Women Across All Cities, Campuses & Workplaces"
+    all_women_empowered: "Protecting Women Across All Cities, Campuses & Workplaces",
+
+    // New Advanced Innovations
+    safe_routing: "Safe Lighting-Weighted Router",
+    bio_telemetry: "Bio-Telemetry & WhisperMesh",
+    tracker_hunter: "Stalkware & Rogue Tracker Hunter",
+    blockchain_ledger: "Blockchain Ledger Proof",
+    trauma_journal: "Trauma-Informed Voice Journal",
+    ncii_scramble: "Global NCII Scramble Pipeline",
+    civic_lux_map: "Ambient Streetlight & Civic Grievance"
   },
   hi: {
     app_name: "शील्ड (SHIELD)",
@@ -149,7 +158,16 @@ export const translations = {
     download_pdf_pack: "कोर्ट-रेडी साक्ष्य पैक (PDF) डाउनलोड करें",
     verify_evidence: "साक्ष्य सत्यापन एवं छेड़छाड़ जांच",
     simulate_tamper: "छेड़छाड़ का परीक्षण करें (1 बाइट बदलें)",
-    all_women_empowered: "सभी शहरों, परिसरों और कार्यस्थलों की महिलाओं के लिए समर्पित"
+    all_women_empowered: "सभी शहरों, परिसरों और कार्यस्थलों की महिलाओं के लिए समर्पित",
+
+    // New Advanced Innovations
+    safe_routing: "सुरक्षित प्रकाश-युक्त मार्ग नेविगेटर",
+    bio_telemetry: "बायो-टेलीमेट्री एवं विस्परमेश",
+    tracker_hunter: "स्टॉकवेयर एवं एयरटैग ट्रैकर डिटेक्टर",
+    blockchain_ledger: "ब्लॉकचेन साक्ष्य टाइमस्टैम्प",
+    trauma_journal: "ट्रॉमा-सेंसिटिव AI वॉयस जर्नल",
+    ncii_scramble: "वैश्विक NCII स्क्रैम्बल नेटवर्क",
+    civic_lux_map: "स्ट्रीटलाइट लक्स मैपिंग व नगर निगम शिकायत"
   },
   kn: {
     app_name: "ಶೀಲ್ಡ್ (SHIELD)",
@@ -225,7 +243,16 @@ export const translations = {
     download_pdf_pack: "ಕೋರ್ಟ್ ಸಾಕ್ಷ್ಯ ಪ್ಯಾಕ್ (PDF) ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ",
     verify_evidence: "ಸಾಕ್ಷ್ಯ ಪರಿಶೀಲನೆ ಮತ್ತು ತಿದ್ದುವಿಕೆ ಪರೀಕ್ಷೆ",
     simulate_tamper: "ತಿದ್ದುವಿಕೆ ಪರೀಕ್ಷೆ (1 ಬೈಟ್ ಬದಲಿಸಿ)",
-    all_women_empowered: "ಎಲ್ಲಾ ನಗರಗಳು, ಕ್ಯಾಂಪಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಸ್ಥಳಗಳ ಮಹಿಳೆಯರಿಗಾಗಿ ಸಮರ್ಪಿತ"
+    all_women_empowered: "ಎಲ್ಲಾ ನಗರಗಳು, ಕ್ಯಾಂಪಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಸ್ಥಳಗಳ ಮಹಿಳೆಯರಿಗಾಗಿ ಸಮರ್ಪಿತ",
+
+    // New Advanced Innovations
+    safe_routing: "ಬೆಳಕು-ಯುಕ್ತ ಸುರಕ್ಷಿತ ಮಾರ್ಗ ರೂಟರ್",
+    bio_telemetry: "ಬಯೋ-ಟೆಲಿಮೆಟ್ರಿ & ವಿಸ್ಪರ್‌ಮೆಶ್",
+    tracker_hunter: "ಏರ್‌ಟ್ಯಾಗ್ ಹಾಗೂ ಟ್ರ್ಯಾಕರ್ ಡಿಟೆಕ್ಟರ್",
+    blockchain_ledger: "ಬ್ಲಾಕ್‌ಚೈನ್ ಸಾಕ್ಷ್ಯ ಟೈಮ್‌ಸ್ಟ್ಯಾಂಪ್",
+    trauma_journal: "ಟ್ರಾಮಾ-ಸೆನ್ಸಿಟಿವ್ AI ವಾಯ್ಸ್ ಜರ್ನಲ್",
+    ncii_scramble: "ಜಾಗತಿಕ NCII ಬ್ಲಾಕ್ ನೆಟ್‌ವರ್ಕ್",
+    civic_lux_map: "ಬೀದಿದೀಪ ಲಕ್ಸ್ ಮ್ಯಾಪಿಂಗ್ & ದೂರು ಸಲ್ಲಿಕೆ"
   },
   te: {
     app_name: "షీల్డ్ (SHIELD)",
@@ -301,6 +328,15 @@ export const translations = {
     download_pdf_pack: "కోర్టు-సిద్ధ సాక్ష్యాల ప్యాక్ (PDF) డౌన్‌లోడ్ చేయండి",
     verify_evidence: "సాక్ష్యాల ధృవీకరణ & మార్పుల పరీక్ష",
     simulate_tamper: "మార్పు పరీక్ష (1 బైట్ మార్చండి)",
-    all_women_empowered: "అన్ని నగరాలు, క్యాంపస్‌లు మరియు కార్యాలయాల మహిళల రక్షణకై"
+    all_women_empowered: "అన్ని నగరాలు, క్యాంపస్‌లు మరియు కార్యాలయాల మహిళల రక్షణకై",
+
+    // New Advanced Innovations
+    safe_routing: "సురక్షిత వెలుతురుతో కూడిన మార్గ నావిగేటర్",
+    bio_telemetry: "బయో-టెలిమెట్రీ & విస్పర్‌మెష్",
+    tracker_hunter: "స్టాక్‌వేర్ & ఎయిర్‌ట్యాగ్ డిటెక్టర్",
+    blockchain_ledger: "బ్లాక్‌చెయిన్ సాక్ష్యాల టైమ్‌స్టాంప్",
+    trauma_journal: "ట్రామా-సెన్సిటివ్ AI వాయిస్ జర్నల్",
+    ncii_scramble: "గ్లోబల్ NCII బ్లాక్ నెట్‌వర్క్",
+    civic_lux_map: "వీధిదీపాల లక్స్ మ్యాపింగ్ & పురపాలక ఫిర్యాదు"
   }
 };

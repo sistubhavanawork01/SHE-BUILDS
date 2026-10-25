@@ -6,6 +6,7 @@ const ShieldContext = createContext(null);
 
 export const ShieldProvider = ({ children }) => {
   const [lang, setLang] = useState(() => localStorage.getItem('shield_lang') || 'en');
+  const [voiceEnabled, setVoiceEnabled] = useState(() => localStorage.getItem('shield_voice_enabled') === 'true');
   
   // User Authentication State
   const [user, setUser] = useState(() => {
@@ -46,6 +47,14 @@ export const ShieldProvider = ({ children }) => {
   const handleSetLang = (newLang) => {
     setLang(newLang);
     localStorage.setItem('shield_lang', newLang);
+  };
+
+  const handleSetVoiceEnabled = (enabled) => {
+    setVoiceEnabled(enabled);
+    localStorage.setItem('shield_voice_enabled', String(enabled));
+    if (!enabled && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
   };
 
   const login = (userData) => {
@@ -222,6 +231,8 @@ export const ShieldProvider = ({ children }) => {
       value={{
         lang,
         setLang: handleSetLang,
+        voiceEnabled,
+        setVoiceEnabled: handleSetVoiceEnabled,
         t,
         user,
         isAuthenticated: !!user,

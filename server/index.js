@@ -5,6 +5,13 @@ import { store } from './data/store.js';
 import { auditChain } from './services/auditChain.js';
 import { realtime } from './services/realtime.js';
 import { analyzeDigitalThreat, draftLegalComplaint } from './services/geminiService.js';
+import {
+  anchorEvidence,
+  getIntegrationStatus,
+  getSafetyData,
+  submitMunicipalGrievance,
+  submitNciiProtection
+} from './services/integrationAdapters.js';
 
 dotenv.config();
 
@@ -23,6 +30,52 @@ app.get('/api/health', (req, res) => {
     timestamp: new Date().toISOString(),
     realtime_clients: realtime.getClientCount()
   });
+});
+
+app.get('/api/integrations/status', (req, res) => {
+  res.json(getIntegrationStatus());
+});
+
+app.post('/api/integrations/ncii/submit', async (req, res) => {
+  try {
+    const { perceptual_hash, metadata } = req.body;
+    if (!/^[01]{64}$/.test(perceptual_hash || '')) {
+      return res.status(400).json({ error: 'A 64-bit perceptual hash is required' });
+    }
+    res.json(await submitNciiProtection({ perceptualHash: perceptual_hash, metadata }));
+  } catch (err) {
+    res.status(502).json({ error: err.message });
+  }
+});
+
+app.post('/api/integrations/municipal/grievance', async (req, res) => {
+  try {
+    if (!req.body?.description || !req.body?.location) {
+      return res.status(400).json({ error: 'description and location are required' });
+    }
+    res.json(await submitMunicipalGrievance(req.body));
+  } catch (err) {
+    res.status(502).json({ error: err.message });
+  }
+});
+
+app.get('/api/integrations/safety-data', async (req, res) => {
+  try {
+    res.json(await getSafetyData(req.query));
+  } catch (err) {
+    res.status(502).json({ error: err.message });
+  }
+});
+
+app.post('/api/integrations/blockchain/anchor', async (req, res) => {
+  try {
+    if (!/^[a-f0-9]{64}$/i.test(req.body?.merkle_root || '')) {
+      return res.status(400).json({ error: 'A 64-character hexadecimal Merkle root is required' });
+    }
+    res.json(await anchorEvidence({ merkleRoot: req.body.merkle_root, metadata: req.body.metadata }));
+  } catch (err) {
+    res.status(502).json({ error: err.message });
+  }
 });
 
 // Realtime SSE endpoint for multi-device sync
@@ -255,4 +308,3 @@ app.post('/api/digital/breach-check', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🛡️ SHIELD Server running on http://localhost:${PORT}`);
 });
-
