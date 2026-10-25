@@ -16,25 +16,14 @@ import {
   Sparkles,
   AlertTriangle,
   ChevronRight,
-  Radio
+  Radio,
+  UserCheck
 } from 'lucide-react';
 
 export const SafetyHomePage = ({ setActiveTab }) => {
-  const { t, setFakeCallOpen, patterns, safeJourney, setSafeJourney } = useShield();
-  const [journeyDest, setJourneyDest] = useState('Hostel Tower 4');
-  const [journeyMins, setJourneyMins] = useState(15);
-  const [journeyModal, setJourneyModal] = useState(false);
-
-  const startJourney = () => {
-    setSafeJourney({
-      destination: journeyDest,
-      total_mins: journeyMins,
-      started_at: Date.now(),
-      target_time: Date.now() + journeyMins * 60 * 1000,
-      status: 'active'
-    });
-    setJourneyModal(false);
-  };
+  const { t, setFakeCallOpen, patterns, safeJourney, setSafeJourney, safetyCircle } = useShield();
+  const [journeyDest, setJourneyDest] = useState('Central Metro Transit Hub');
+  const [journeyMins, setJourneyMins] = useState(20);
 
   const confirmArrival = () => {
     setSafeJourney(null);
@@ -43,21 +32,23 @@ export const SafetyHomePage = ({ setActiveTab }) => {
   return (
     <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
       
-      {/* Before / During / After Innovation Banner */}
+      {/* Universal Before / During / After Innovation Banner */}
       <div className="bg-gradient-to-r from-slate-900 via-rose-950/40 to-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-rose-400 bg-rose-500/10 border border-rose-500/20 px-2 py-0.5 rounded-full">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-rose-400 bg-rose-500/10 border border-rose-500/20 px-2.5 py-0.5 rounded-full">
                 {t.before_during_after}
               </span>
-              <span className="text-xs text-slate-400">NITK Hackathon PS2</span>
+              <span className="text-xs text-emerald-400 font-semibold flex items-center gap-1">
+                <UserCheck className="w-3.5 h-3.5" /> {t.all_women_empowered}
+              </span>
             </div>
-            <h2 className="text-lg font-bold text-white mt-1">
-              Community-Powered Women's Safety & Incident Intelligence
+            <h2 className="text-lg font-bold text-white mt-1.5">
+              {t.tagline}
             </h2>
-            <p className="text-xs text-slate-300 max-w-xl mt-0.5">
-              Not just an SOS button. Protects before travel, helps discreetly during distress, and provides court-ready proof afterwards.
+            <p className="text-xs text-slate-300 max-w-xl mt-0.5 leading-relaxed">
+              {t.subtagline}
             </p>
           </div>
 
@@ -67,7 +58,7 @@ export const SafetyHomePage = ({ setActiveTab }) => {
               className="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-2 rounded-xl flex items-center gap-1.5 transition font-medium"
             >
               <Radio className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
-              <span>Contact Live View</span>
+              <span>{t.contact_companion}</span>
             </button>
           </div>
         </div>
@@ -88,7 +79,7 @@ export const SafetyHomePage = ({ setActiveTab }) => {
                 {patterns[0].concern_level.replace('_', ' ')}
               </span>
               <span className="text-xs text-amber-300/80 group-hover:translate-x-1 transition flex items-center gap-1">
-                View on Map <ChevronRight className="w-3.5 h-3.5" />
+                {t.safety_map} <ChevronRight className="w-3.5 h-3.5" />
               </span>
             </div>
             <h4 className="text-sm font-bold text-white mt-0.5">{patterns[0].title}</h4>
@@ -102,7 +93,7 @@ export const SafetyHomePage = ({ setActiveTab }) => {
       {/* P0 Headline: Hold To SOS */}
       <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 shadow-2xl backdrop-blur-sm text-center">
         <h3 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">
-          Immediate Emergency Dispatch
+          {t.hold_sos}
         </h3>
         <HoldToSOS />
       </div>
@@ -115,7 +106,9 @@ export const SafetyHomePage = ({ setActiveTab }) => {
               <Clock className="w-5 h-5 animate-spin" />
             </div>
             <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">Safe Journey Active</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">
+                {t.safe_journey}
+              </span>
               <p className="text-xs text-slate-200">Destination: {safeJourney.destination}</p>
             </div>
           </div>
@@ -131,8 +124,8 @@ export const SafetyHomePage = ({ setActiveTab }) => {
       {/* Feature Grid: Before, During, After */}
       <div>
         <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-1 flex items-center justify-between">
-          <span>Safety Capabilities & Protocols</span>
-          <span className="text-[11px] text-rose-400 font-normal">All modules integrated</span>
+          <span>{t.tagline}</span>
+          <span className="text-[11px] text-rose-400 font-semibold">{safetyCircle.name}</span>
         </h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
@@ -140,7 +133,7 @@ export const SafetyHomePage = ({ setActiveTab }) => {
           {/* Cab Guard */}
           <div 
             onClick={() => setActiveTab('cab_guard')}
-            className="bg-slate-900/70 hover:bg-slate-900 border border-slate-800 hover:border-rose-500/50 rounded-2xl p-4.5 cursor-pointer transition shadow-lg group relative overflow-hidden"
+            className="bg-slate-900/70 hover:bg-slate-900 border border-slate-800 hover:border-cyan-500/50 rounded-2xl p-4.5 cursor-pointer transition shadow-lg group relative overflow-hidden"
           >
             <div className="flex items-center justify-between mb-2.5">
               <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition">
@@ -151,10 +144,10 @@ export const SafetyHomePage = ({ setActiveTab }) => {
               </span>
             </div>
             <h4 className="font-bold text-white text-sm group-hover:text-cyan-400 transition">
-              Cab Guard & Route Deviation
+              {t.cab_guard}
             </h4>
             <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-              License plate OCR, 300m corridor monitor, offline replay simulator & auto-escalation.
+              License plate OCR, 300m safety corridor monitor, offline replay simulator & auto-escalation.
             </p>
           </div>
 
@@ -172,7 +165,7 @@ export const SafetyHomePage = ({ setActiveTab }) => {
               </span>
             </div>
             <h4 className="font-bold text-white text-sm group-hover:text-emerald-400 transition">
-              Safe Havens & Safe Spots
+              {t.safe_havens}
             </h4>
             <p className="text-xs text-slate-400 mt-1 leading-relaxed">
               Nearest 24x7 police, hospitals & verified partner shops with anonymous QR silent signals.
@@ -193,7 +186,7 @@ export const SafetyHomePage = ({ setActiveTab }) => {
               </span>
             </div>
             <h4 className="font-bold text-white text-sm group-hover:text-indigo-400 transition">
-              Time-Aware Safety Map
+              {t.safety_map}
             </h4>
             <p className="text-xs text-slate-400 mt-1 leading-relaxed">
               Privacy-filtered area concerns, hour slider (morning, evening, night) & pattern clusters.
@@ -214,7 +207,7 @@ export const SafetyHomePage = ({ setActiveTab }) => {
               </span>
             </div>
             <h4 className="font-bold text-white text-sm group-hover:text-rose-400 transition">
-              Evidence Vault & Court Pack
+              {t.evidence_vault}
             </h4>
             <p className="text-xs text-slate-400 mt-1 leading-relaxed">
               SHA-256 hash chaining, Section 63 BSA 2023 certificate info & AI legal complaint draft.
@@ -235,7 +228,7 @@ export const SafetyHomePage = ({ setActiveTab }) => {
               </span>
             </div>
             <h4 className="font-bold text-white text-sm group-hover:text-purple-400 transition">
-              NCII & Digital Safety Shield
+              {t.digital_shield}
             </h4>
             <p className="text-xs text-slate-400 mt-1 leading-relaxed">
               On-device perceptual dHash (zero image upload), breach checker & fake profile kit.
@@ -256,7 +249,7 @@ export const SafetyHomePage = ({ setActiveTab }) => {
               </span>
             </div>
             <h4 className="font-bold text-white text-sm group-hover:text-amber-400 transition">
-              AI Fake Incoming Call
+              {t.fake_call}
             </h4>
             <p className="text-xs text-slate-400 mt-1 leading-relaxed">
               Realistic incoming call with synthesizer ringtone & voice dialogue to exit safely.
@@ -265,38 +258,37 @@ export const SafetyHomePage = ({ setActiveTab }) => {
         </div>
       </div>
 
-      {/* Quick Navigation Quick Links for Hackathon Evaluators */}
+      {/* Quick Navigation Portal Links */}
       <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-4 flex flex-wrap gap-2 text-xs">
         <span className="text-slate-400 font-semibold flex items-center gap-1.5 mr-2">
-          <Sparkles className="w-3.5 h-3.5 text-rose-400" /> Hackathon Portals:
+          <Sparkles className="w-3.5 h-3.5 text-rose-400" /> Quick Access Portals:
         </span>
         <button
           onClick={() => setActiveTab('report')}
-          className="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700 transition"
+          className="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-lg border border-slate-700 transition"
         >
-          + Report Incident (P0)
+          + {t.report_incident}
         </button>
         <button
           onClick={() => setActiveTab('verify_evidence')}
-          className="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700 transition"
+          className="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-lg border border-slate-700 transition"
         >
-          🔍 Verify Hash & Tamper Demo
+          🔍 {t.verify_evidence}
+        </button>
+        <button
+          onClick={() => setActiveTab('account_profile')}
+          className="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-lg border border-slate-700 transition"
+        >
+          ⚙️ {t.account_profile}
         </button>
         <button
           onClick={() => setActiveTab('institution_dashboard')}
-          className="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700 transition"
+          className="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-lg border border-slate-700 transition"
         >
-          🏛️ Institution Dashboard & Report-Back
-        </button>
-        <button
-          onClick={() => setActiveTab('safe_spot_view')}
-          className="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700 transition"
-        >
-          🏪 Safe Spot Shopkeeper Panel
+          🏛️ {t.moderator_dash}
         </button>
       </div>
 
     </div>
   );
 };
-

@@ -4,6 +4,8 @@ import { Navbar } from './components/Navbar.jsx';
 import { DecoyCalculator } from './components/DecoyCalculator.jsx';
 import { AIFakeCallModal } from './components/AIFakeCallModal.jsx';
 
+import { AuthPage } from './pages/AuthPage.jsx';
+import { AccountProfilePage } from './pages/AccountProfilePage.jsx';
 import { SafetyHomePage } from './pages/SafetyHomePage.jsx';
 import { CabGuardPage } from './pages/CabGuardPage.jsx';
 import { SafeHavensPage } from './pages/SafeHavensPage.jsx';
@@ -26,11 +28,12 @@ import {
   Radio, 
   Building2, 
   Store,
+  User,
   Sparkles
 } from 'lucide-react';
 
 const MainAppContent = () => {
-  const { isDecoyUnlocked, fakeCallOpen, setFakeCallOpen } = useShield();
+  const { isAuthenticated, isDecoyUnlocked, fakeCallOpen, setFakeCallOpen, t } = useShield();
   const [activeTab, setActiveTab] = useState('home');
 
   // Check URL parameters for companion views (e.g. ?view=contact or ?view=safe-spot)
@@ -41,7 +44,12 @@ const MainAppContent = () => {
     if (view === 'safe-spot') setActiveTab('safe_spot_view');
   }, []);
 
-  // If locked in Decoy Calculator Mode
+  // 1. If user is NOT authenticated yet, present the Sign Up / Sign In gateway!
+  if (!isAuthenticated) {
+    return <AuthPage />;
+  }
+
+  // 2. If locked in Decoy Calculator Mode
   if (!isDecoyUnlocked) {
     return <DecoyCalculator />;
   }
@@ -65,6 +73,7 @@ const MainAppContent = () => {
         {activeTab === 'institution_dashboard' && <InstitutionDashboardPage />}
         {activeTab === 'contact_view' && <TrustedContactLivePage />}
         {activeTab === 'safe_spot_view' && <SafeSpotShopPage />}
+        {activeTab === 'account_profile' && <AccountProfilePage setActiveTab={setActiveTab} />}
       </main>
 
       {/* AI Fake Call Modal */}
@@ -82,7 +91,7 @@ const MainAppContent = () => {
           }`}
         >
           <Shield className="w-5 h-5" />
-          <span>Home</span>
+          <span>{t.safety_home || 'Home'}</span>
         </button>
 
         <button
@@ -92,7 +101,7 @@ const MainAppContent = () => {
           }`}
         >
           <Car className="w-5 h-5" />
-          <span>Cab Guard</span>
+          <span>Cab</span>
         </button>
 
         <button
@@ -116,20 +125,20 @@ const MainAppContent = () => {
         </button>
 
         <button
-          onClick={() => setActiveTab('evidence_vault')}
+          onClick={() => setActiveTab('account_profile')}
           className={`flex flex-col items-center gap-1 text-[10px] font-semibold ${
-            activeTab === 'evidence_vault' ? 'text-purple-400' : 'text-slate-400'
+            activeTab === 'account_profile' ? 'text-purple-400' : 'text-slate-400'
           }`}
         >
-          <FileText className="w-5 h-5" />
-          <span>Vault</span>
+          <User className="w-5 h-5" />
+          <span>Profile</span>
         </button>
       </div>
 
-      {/* Footer */}
+      {/* Universal Footer */}
       <footer className="hidden sm:block border-t border-slate-900/80 mt-10 py-4 text-center text-xs text-slate-500">
         <div className="max-w-4xl mx-auto flex items-center justify-between px-4">
-          <span>SHIELD • NITK Women Hackathon • PS2 Women’s Safety</span>
+          <span>{t.app_name} • {t.all_women_empowered}</span>
           <span>Section 63 Bharatiya Sakshya Adhiniyam, 2023 Compliant</span>
         </div>
       </footer>

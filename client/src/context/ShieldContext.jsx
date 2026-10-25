@@ -5,8 +5,15 @@ import { hashPinWithPBKDF2 } from '../utils/crypto.js';
 const ShieldContext = createContext(null);
 
 export const ShieldProvider = ({ children }) => {
-  const [lang, setLang] = useState('en');
-  const [isDecoyUnlocked, setIsDecoyUnlocked] = useState(true); // default true for convenience, togglable to decoy
+  const [lang, setLang] = useState(() => localStorage.getItem('shield_lang') || 'en');
+  
+  // User Authentication State
+  const [user, setUser] = useState(() => {
+    const saved = localStorage.getItem('shield_user');
+    return saved ? JSON.parse(saved) : null;
+  });
+
+  const [isDecoyUnlocked, setIsDecoyUnlocked] = useState(true);
   const [normalPinHash, setNormalPinHash] = useState('');
   const [duressPinHash, setDuressPinHash] = useState('');
 
@@ -27,18 +34,59 @@ export const ShieldProvider = ({ children }) => {
   const [safeJourney, setSafeJourney] = useState(null);
   const [fakeCallOpen, setFakeCallOpen] = useState(false);
 
+  // Active Safety Circle - Universal across all women
+  const [safetyCircle, setSafetyCircle] = useState({
+    name: "Universal Women's Transit & City Safety Network",
+    member_count: 2450,
+    active_patrols: 18
+  });
+
   const t = translations[lang] || translations.en;
 
-  // Initialize PIN hashes with PBKDF2 (Normal: 1234, Duress: 9999)
+  const handleSetLang = (newLang) => {
+    setLang(newLang);
+    localStorage.setItem('shield_lang', newLang);
+  };
+
+  const login = (userData) => {
+    setUser(userData);
+    localStorage.setItem('shield_user', JSON.stringify(userData));
+    if (userData.circle_name) {
+      setSafetyCircle(prev => ({
+        ...prev,
+        name: userData.circle_name
+      }));
+    }
+  };
+
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem('shield_user');
+  };
+
+  const updateUser = (fields) => {
+    setUser(prev => {
+      const updated = { ...prev, ...fields };
+      localStorage.setItem('shield_user', JSON.stringify(updated));
+      return updated;
+    });
+    if (fields.circle_name) {
+      setSafetyCircle(prev => ({ ...prev, name: fields.circle_name }));
+    }
+  };
+
+  // Initialize PIN hashes with PBKDF2 (Normal: 1234, Duress: 9999 or user configured)
   useEffect(() => {
     async function initPins() {
-      const normal = await hashPinWithPBKDF2('1234');
-      const duress = await hashPinWithPBKDF2('9999');
+      const normalPin = user?.normal_pin || '1234';
+      const duressPin = user?.duress_pin || '9999';
+      const normal = await hashPinWithPBKDF2(normalPin);
+      const duress = await hashPinWithPBKDF2(duressPin);
       setNormalPinHash(normal);
       setDuressPinHash(duress);
     }
     initPins();
-  }, []);
+  }, [user]);
 
   // Fetch initial data
   const fetchData = useCallback(async () => {
@@ -56,7 +104,10 @@ export const ShieldProvider = ({ children }) => {
       if (incRes.ok) setIncidents(await incRes.json());
       if (havRes.ok) setSafeHavens(await havRes.json());
       if (patRes.ok) setPatterns(await patRes.json());
-      if (conRes.ok) setTrustedContacts(await conRes.json());
+      if (conRes.ok) {
+        const conData = await conRes.json();
+        setTrustedContacts(conData);
+      }
       if (logRes.ok) {
         const logData = await logRes.json();
         setAuditLogs(logData.entries || []);
@@ -92,9 +143,6 @@ export const ShieldProvider = ({ children }) => {
       try {
         const parsed = JSON.parse(event.data);
         setLatestSSEEvent(parsed);
-        if (parsed.data.is_deviated) {
-          // Play subtle warning or update banner
-        }
       } catch (e) {
         console.error('Error parsing RIDE_GPS_UPDATE:', e);
       }
@@ -122,13 +170,13 @@ export const ShieldProvider = ({ children }) => {
     const enteredHash = await hashPinWithPBKDF2(inputPin);
 
     // Check Normal PIN: unlocks SHIELD
-    if (enteredHash === normalPinHash || inputPin === '1234') {
+    if (enteredHash === normalPinHash || inputPin === (user?.normal_pin || '1234')) {
       setIsDecoyUnlocked(true);
       return { success: true, mode: 'NORMAL_SHIELD' };
     }
 
     // Check Duress PIN: remains on calculator, but secretly triggers emergency alert!
-    if (enteredHash === duressPinHash || inputPin === '9999') {
+    if (enteredHash === duressPinHash || inputPin === (user?.duress_pin || '9999')) {
       try {
         await fetch('/api/duress', {
           method: 'POST',
@@ -155,9 +203,9 @@ export const ShieldProvider = ({ children }) => {
       if (res.ok) {
         setActiveEmergency({
           type: 'HOLD_FOR_HELP_ACTIVE',
-          user_name: 'Priya S.',
+          user_name: user?.name || 'Priya S.',
           timestamp: new Date().toISOString(),
-          location: { lat: 13.0108, lng: 74.7938, name: 'NITK Main Campus' }
+          location: { lat: 13.0108, lng: 74.7938, name: user?.circle_name || 'City Safety Hub' }
         });
       }
     } catch (e) {
@@ -173,8 +221,13 @@ export const ShieldProvider = ({ children }) => {
     <ShieldContext.Provider
       value={{
         lang,
-        setLang,
+        setLang: handleSetLang,
         t,
+        user,
+        isAuthenticated: !!user,
+        login,
+        logout,
+        updateUser,
         isDecoyUnlocked,
         setIsDecoyUnlocked,
         testPin,
@@ -194,7 +247,8 @@ export const ShieldProvider = ({ children }) => {
         setSafeJourney,
         fakeCallOpen,
         setFakeCallOpen,
-        latestSSEEvent
+        latestSSEEvent,
+        safetyCircle
       }}
     >
       {children}
@@ -209,4 +263,3 @@ export const useShield = () => {
   }
   return context;
 };
-
